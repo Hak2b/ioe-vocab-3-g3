@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trò Chơi Tìm Từ Chính Xác (Bộ 3)</title>
+    <title>Trò Chơi Loại Kí Tự Thừa (Bộ 3)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -82,13 +82,17 @@
         <div id="game-screen" class="hidden">
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
                 <!-- Header -->
-                <div class="flex justify-between items-center mb-6">
+                <div class="grid grid-cols-3 text-center mb-6">
                     <div>
-                        <span class="text-gray-500">Người chơi:</span>
+                        <span class="text-gray-500 block sm:inline">Người chơi:</span>
                         <span id="player-name-display" class="font-bold text-purple-700 text-lg"></span>
                     </div>
                     <div>
-                        <span class="text-gray-500">Điểm:</span>
+                        <span class="text-gray-500 block sm:inline">Từ:</span>
+                        <span id="word-count-display" class="font-bold text-gray-700 text-lg">0 / 0</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block sm:inline">Điểm:</span>
                         <span id="score-display" class="font-bold text-green-600 text-lg">0</span>
                     </div>
                 </div>
@@ -160,6 +164,7 @@
         const startGameBtn = document.getElementById('start-game-btn');
         const playerNameDisplay = document.getElementById('player-name-display');
         const scoreDisplay = document.getElementById('score-display');
+        const wordCountDisplay = document.getElementById('word-count-display');
         const letterButtonsContainer = document.getElementById('letter-buttons-container');
         const hintBtn = document.getElementById('hint-btn');
         const hintDisplay = document.getElementById('hint-display');
@@ -273,6 +278,9 @@
         function nextWord() {
             isProcessing = false;
             currentWordIndex++;
+
+            wordCountDisplay.textContent = `${Math.min(currentWordIndex + 1, shuffledWords.length)} / ${shuffledWords.length}`;
+
             if (currentWordIndex >= shuffledWords.length) {
                 endGame();
                 return;
@@ -336,7 +344,6 @@
                     scoreDisplay.textContent = score;
                     letterButtonsContainer.classList.add('correct-word');
                     
-                    // CẬP NHẬT: HIỂN THỊ CẢ TIẾNG ANH VÀ TIẾNG VIỆT
                     hintDisplay.innerHTML = `<span class="font-bold">${currentWord.en}</span>: ${currentWord.vi}`;
 
                     playCorrectSound();
@@ -357,7 +364,6 @@
         }
         
         function showHint() {
-            // CẬP NHẬT: HIỂN THỊ CẢ TIẾNG ANH VÀ TIẾNG VIỆT
             hintDisplay.innerHTML = `<span class="font-bold">${currentWord.en}</span>: ${currentWord.vi}`;
         }
         
